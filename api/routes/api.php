@@ -28,9 +28,9 @@ Route::prefix('article')->name('article.')->middleware('auth:sanctum')->group(fu
     //Comments
     Route::get('/{article}/comments', [CommentController::class, 'index'])->name('get-comments');
     Route::post('/{article}/comment', [CommentController::class, 'store'])->name('add-comment');
-    Route::get('/{article}/comment/{comment}', [CommentController::class, 'show'])->name('get-comment');
+    Route::post('/{article}/comment/{comment}', [CommentController::class, 'reply'])->name('reply-to-comment');
     Route::put('/{article}/comment/{comment}', [CommentController::class, 'update'])->name('update-comment');
-    Route::get('/{article}/comment/{comment}/delete', [CommentController::class, 'destroy'])->name('delete-comment');
+    Route::delete('/{article}/comment/{comment}/delete', [CommentController::class, 'destroy'])->name('delete-comment');
 });
 
 
