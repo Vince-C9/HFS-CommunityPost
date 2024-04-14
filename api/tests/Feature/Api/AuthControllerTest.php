@@ -8,6 +8,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\DB;
 
 class AuthControllerTest extends TestCase
 {
@@ -65,4 +66,36 @@ class AuthControllerTest extends TestCase
         $response->assertSee(['passwords.sent', 'Password reset link sent']);
         Notification::assertCount(1);
     }
+
+
+    /**
+     * @test
+     * @group Auth
+     */
+
+     public function it_resets_the_password_when_token_email_and_passwords_are_sent(){
+        Notification::fake();
+        //Make a user who has foolishly forgot their password!
+        $user = User::factory()->create();
+        $oldPassword = $user->password;
+
+        //Send a forgot password link
+        $this->post(route('auth.forgot-password'), [
+            'email'=>$user->email,
+        ]);
+
+        //Get the token for the user
+        $token = DB::table('password_reset_tokens')->select('token')->whereEmail($user->email)->pluck('token')->first();
+
+        $response = $this->post(route('auth.reset-password'), [
+            'email'=>$user->email,
+            'token'=>$token,
+            'password'=>'secret123!',
+            'password_confirmation'=>'secret123!'
+        ]);
+
+        $response->assertOk();
+        $response->assertSee(['passwords.token', 'Password reset successfully']);
+        Notification::assertCount(1);
+     }
 }
