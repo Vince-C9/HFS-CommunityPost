@@ -22,13 +22,13 @@ class ArticleTest extends TestCase
 
      public function it_allows_authenticated_users_to_create_a_new_article(){
         $user = User::factory()->create();
-        $response = $this->actingAs($user)->post(route('article.create'), [
+        $response = $this->actingAs($user)->post(route('article.store'), [
             'title'=>'Test Article',
             'content'=>'This is my super cool test article!'
         ]);
 
         $response->assertOk();
-        $this->assertCount(1,Article::count());
+        $this->assertCount(1,Article::get());
         $this->assertTrue($user->article->first()->title === 'Test Article');
      }
 
@@ -52,7 +52,7 @@ class ArticleTest extends TestCase
         ]);
 
         $response->assertOk();
-        $this->assertCount(1,Article::count());
+        $this->assertCount(1,Article::get());
         $this->assertTrue($user->article->first()->title === 'Test Article Update');
         $this->assertTrue($user->article->first()->content === 'This is my super cool test article! Update');
       }
@@ -73,7 +73,7 @@ class ArticleTest extends TestCase
         $response = $this->actingAs($user)->delete(route('article.delete', [$article->id]));
 
         $response->assertOk();
-        $this->assertCount(0,Article::count());
+        $this->assertCount(0,Article::get());
       }
 
       /**
@@ -89,10 +89,10 @@ class ArticleTest extends TestCase
             'user_id'=>$user->id
         ]);
 
-        $response = $this->actingAs($user)->get(route('article.get'));
+        $response = $this->actingAs($user)->get(route('article.list'));
 
         $response->assertOk();
-        $this->assertCount(3,Article::count());
+        $this->assertCount(3,Article::get());
       }
 
 
@@ -105,14 +105,15 @@ class ArticleTest extends TestCase
 
       public function it_gets_a_specified_article(){
         $user = User::factory()->create();
-        $article = Article::factory()->count(3)->create([
+        $article = Article::factory()->create([
+            'title'=>'Test Article',
             'user_id'=>$user->id
         ]);
 
-        $response = $this->actingAs($user)->get(route('article.get', [$article->id]));
+        $response = $this->actingAs($user)->get(route('article.show', [$article->id]));
 
         $response->assertOk();
-        $this->assertCount(1,Article::count());
-        $this->assertTrue($response->content()->article->title === 'Test Article');
+        $this->assertCount(1,Article::get());
+        $this->assertTrue(json_decode($response->content())->article->title === 'Test Article');
       }
 }
