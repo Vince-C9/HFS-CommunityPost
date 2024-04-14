@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\ArticleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,8 +17,13 @@ use App\Http\Controllers\Api\AuthController;
 */
 
 //Protected Routes
-Route::prefix('auth')->name('auth.')->middleware('auth:sanctum')->group(function(){
-    
+Route::prefix('article')->name('article.')->middleware('auth:sanctum')->group(function(){
+    Route::get('/', [ArticleController::class, 'index'])->name('list');
+    Route::post('/', [ArticleController::class, 'create'])->name('create');
+    Route::post('/', [ArticleController::class, 'save'])->name('store');
+    Route::get('/{article}', [ArticleController::class, 'edit'])->name('edit');
+    Route::post('/{article}', [ArticleController::class, 'update'])->name('update');
+    Route::delete('/{article}', [ArticleController::class, 'destroy'])->name('delete');
 });
 
 //Unprotected routes
