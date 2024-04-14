@@ -9,7 +9,11 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\ForgotPasswordRequest;
+use App\Http\Requests\ResetPasswordRequest;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
+use Illuminate\Auth\Events\PasswordReset;
 use Throwable;
 
 class AuthController extends Controller
@@ -68,6 +72,66 @@ class AuthController extends Controller
             ], 200);
 
         } catch (Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
+    }
+
+
+    /**
+     * Sends forgot password link to user
+     *
+     * @param ForgotPasswordRequest $request
+     * @return void
+     */
+    public function forgotPassword(ForgotPasswordRequest $request){
+        try{
+            $status = Password::sendResetLink(
+                $request->only('email'),
+            );
+            return response()->json([
+                'status' => $status,
+                'message' => 'Password reset link sent.',
+            ], 200);
+        }
+        catch(Throwable $th){
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
+    }
+
+
+    /**
+     * Reset the users password
+     *
+     * @param ResetPasswordRequest $request
+     * @return void
+     */
+    public function resetPassword(ResetPasswordRequest $request){
+        try{
+             $status = Password::reset(
+                $request->only('email', 'password', 'password_confirmation', 'token'),
+                function (User $user, string $password) {
+                    $user->forceFill([
+                        'password' => Hash::make($password)
+                    ])->setRememberToken(Str::random(60));
+        
+                    $user->save();
+        
+                    event(new PasswordReset($user));
+                }
+            );
+
+            return response()->json([
+                'status' => $status,
+                'message' => 'Password reset successfully.',
+            ], 200);
+        }
+        catch( Throwable $th){
             return response()->json([
                 'status' => false,
                 'message' => $th->getMessage()
