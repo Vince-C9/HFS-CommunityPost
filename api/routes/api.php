@@ -21,7 +21,8 @@ Route::prefix('auth')->name('auth.')->middleware('auth:sanctum')->group(function
 });
 
 //Unprotected routes
-Route::prefix('auth')->name('auth.')->group(function(){
+Route::prefix('auth')->name('auth.')->middleware('guest')->group(function(){
     Route::post('/auth/register', [AuthController::class, 'createUser'])->name('register');
-    Route::post('/auth/login', [AuthController::class, 'loginUser'])->name('login');  
+    Route::post('/auth/login', [AuthController::class, 'loginUser'])->name('login');
+    Route::post('/auth/forgot-password', [AuthController::class, 'forgotPassword'])->name('forgot-password'); 
 });

@@ -10,6 +10,8 @@ use App\Http\Requests\RegisterRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\ForgotPasswordRequest;
+use Illuminate\Support\Facades\Password;
 use Throwable;
 
 class AuthController extends Controller
@@ -68,6 +70,31 @@ class AuthController extends Controller
             ], 200);
 
         } catch (Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
+    }
+
+
+    /**
+     * Sends forgot password link to user
+     *
+     * @param ForgotPasswordRequest $request
+     * @return void
+     */
+    public function forgotPassword(ForgotPasswordRequest $request){
+        try{
+            $status = Password::sendResetLink(
+                $request->only('email'),
+            );
+            return response()->json([
+                'status' => $status,
+                'message' => 'Password reset link sent.',
+            ], 200);
+        }
+        catch(Throwable $th){
             return response()->json([
                 'status' => false,
                 'message' => $th->getMessage()
