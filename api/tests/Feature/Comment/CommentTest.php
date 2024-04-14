@@ -62,5 +62,25 @@ class CommentTest extends TestCase
         $response->assertSee("Comment deleted");
     }
 
+    /**
+     * @test
+     * @group Comments
+     */
+    public function it_can_allow_a_user_to_update_their_own_comment(){
+        $user = User::factory()->create();
+        $article = Article::factory()->create();
+        $comment = Comment::factory()->create([
+            'article_id'=>$article->id,
+            'comment'=>'My cool comment'
+        ]);
+        $response = $this->actingAs($user)->delete(route('comment.delete', [$article->id, $comment->id]), [
+            'comment'=> 'My Updated Comment!'
+        ]);
+
+        $response->assertOk();
+        $response->assertSee("Comment deleted");
+        $this->assertTrue($comment->fresh()->comment !== 'My cool comment');
+    }
+
     
 }
