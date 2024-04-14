@@ -47,6 +47,11 @@ class User extends Authenticatable implements CanResetPassword
     ];
 
 
+    //User has many articles
+    public function article(){
+        return $this->hasMany(User::class);
+    }
+
     /**
      * Send the password reset notification.
      * We need to overwrite this because of our decoupled approach.

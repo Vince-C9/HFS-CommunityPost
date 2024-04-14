@@ -14,4 +14,9 @@ class Article extends Model
         'content',
         'user_id'
     ];
+
+    //Article belongs to user
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 }
