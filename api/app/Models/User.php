@@ -49,7 +49,7 @@ class User extends Authenticatable implements CanResetPassword
 
     //User has many articles
     public function article(){
-        return $this->hasMany(User::class);
+        return $this->hasMany(Article::class);
     }
 
     /**
