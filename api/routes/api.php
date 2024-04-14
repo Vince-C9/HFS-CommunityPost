@@ -22,7 +22,7 @@ Route::prefix('article')->name('article.')->middleware('auth:sanctum')->group(fu
     Route::post('/', [ArticleController::class, 'create'])->name('create');
     Route::post('/', [ArticleController::class, 'save'])->name('store');
     Route::get('/{article}', [ArticleController::class, 'edit'])->name('edit');
-    Route::post('/{article}', [ArticleController::class, 'update'])->name('update');
+    Route::put('/{article}', [ArticleController::class, 'update'])->name('update');
     Route::delete('/{article}', [ArticleController::class, 'destroy'])->name('delete');
 });
 
