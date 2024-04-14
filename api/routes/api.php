@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\CommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,7 +24,16 @@ Route::prefix('article')->name('article.')->middleware('auth:sanctum')->group(fu
     Route::get('/{article}', [ArticleController::class, 'show'])->name('show');
     Route::put('/{article}', [ArticleController::class, 'update'])->name('update');
     Route::delete('/{article}', [ArticleController::class, 'destroy'])->name('delete');
+
+    //Comments
+    Route::get('/{article}/comments', [CommentController::class, 'index'])->name('get-comments');
+    Route::post('/{article}/comment', [CommentController::class, 'store'])->name('add-comment');
+    Route::get('/{article}/comment/{comment}', [CommentController::class, 'show'])->name('get-comment');
+    Route::put('/{article}/comment/{comment}', [CommentController::class, 'update'])->name('update-comment');
+    Route::get('/{article}/comment/{comment}/delete', [CommentController::class, 'destroy'])->name('delete-comment');
 });
+
+
 
 //Unprotected routes
 Route::prefix('auth')->name('auth.')->middleware('guest')->group(function(){
