@@ -7,6 +7,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Notification;
 
 class AuthControllerTest extends TestCase
 {
@@ -38,17 +39,30 @@ class AuthControllerTest extends TestCase
                 'password'=>Hash::make('secret')
             ]
         );
-        //dd($user->password, $user->email,  User::whereEmail($user->email)->first()->password, User::whereEmail($user->email)->first()->email);
 
         $response = $this->post(route('auth.login'), [
             'email' => $user->email,
             'password' => 'secret',
         ]);
 
-        
-
         $response->assertOk();
         $response->assertSee(['status','message','token']);
     }
 
+    /**
+     * @test
+     * @group Auth
+    */
+    public function it_sends_a_forgot_password_email_to_the_email_provided(){
+        Notification::fake();
+
+        $user = User::factory()->create();
+        $response = $this->post(route('auth.forgot-password'), [
+            'email'=>$user->email,
+        ]);
+
+        $response->assertOk();
+        $response->assertSee(['passwords.sent', 'Password reset link sent']);
+        Notification::assertCount(1);
+    }
 }
