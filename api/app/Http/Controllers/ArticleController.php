@@ -45,8 +45,6 @@ class ArticleController extends Controller
             ], 200);
         }
         catch(Throwable $t){
-            
-            dd($t->getMessage());
             return response()->json([
                 'status' => $t->getCode(),
                 'message' => $t->getMessage(),
