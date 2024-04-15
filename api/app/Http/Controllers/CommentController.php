@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Comment\CommentOwnershipRequest;
+use App\Http\Requests\Comment\CommentOwnershipDeleteRequest;
 use App\Models\Article;
 use App\Models\Comment;
 use Illuminate\Http\Request;
@@ -20,7 +22,7 @@ class CommentController extends Controller
     public function store(Request $request, Article $article){
         try {
             Comment::create([
-                'comment'=> $request->comment,
+                'comment'=> $request->body,
                 'user_id'=>auth('sanctum')->user()->id,
                 'article_id'=>$article->id
             ]);
@@ -40,7 +42,7 @@ class CommentController extends Controller
     public function reply(Request $request, Article $article, Comment $comment){
         try {
             Comment::create([
-                'comment'=> $request->comment,
+                'comment'=> $request->body,
                 'parent_id'=>$comment->id,
                 'user_id'=>auth('sanctum')->user()->id,
                 'article_id'=>$article->id
@@ -58,10 +60,10 @@ class CommentController extends Controller
         }
     }
 
-    public function update(Request $request, Article $article, Comment $comment){
+    public function update(CommentOwnershipRequest $request, Article $article, Comment $comment){
         try {
             $comment->update([
-                'comment'=>$request->comment
+                'body' => $request->comment
             ]);
             return response()->json([
                 'status' => 'comment.update',
@@ -77,7 +79,8 @@ class CommentController extends Controller
         }
     }
 
-    public function destroy(Request $request, Article $article, Comment $comment){
+    public function destroy(CommentOwnershipDeleteRequest $request, Article $article, Comment $comment){
+
         try {
             $comment->delete();
             return response()->json([

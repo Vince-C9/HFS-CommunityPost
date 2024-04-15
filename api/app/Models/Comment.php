@@ -32,4 +32,8 @@ class Comment extends Model
     public function replies(){
         return $this->hasMany(Comment::class, 'parent_id');
     }
+
+    public function vote(){
+        return $this->hasMany(Vote::class);
+    }
 }
