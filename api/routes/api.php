@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\VoteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +32,8 @@ Route::prefix('article')->name('article.')->middleware('auth:sanctum')->group(fu
     Route::post('/{article}/comment/{comment}', [CommentController::class, 'reply'])->name('reply-to-comment');
     Route::put('/{article}/comment/{comment}', [CommentController::class, 'update'])->name('update-comment');
     Route::delete('/{article}/comment/{comment}', [CommentController::class, 'destroy'])->name('delete-comment');
+
+    Route::post('/{article}/comment/{comment}/vote', [VoteController::class, 'store'])->name('comment.add-vote');
 });
 
 
