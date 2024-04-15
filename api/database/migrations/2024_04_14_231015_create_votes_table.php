@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('votes', function (Blueprint $table) {
             $table->id();
+            $table->integer('user_id');
+            $table->integer('comment_id');
+            $table->integer('value');
             $table->timestamps();
         });
     }

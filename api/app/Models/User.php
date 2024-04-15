@@ -57,6 +57,11 @@ class User extends Authenticatable implements CanResetPassword
         return $this->hasMany(Comment::class);
     }
 
+    //a user can vote many times.
+    public function vote(){
+        return $this->hasMany(Vote::class);
+    }
+
 
     /**
      * Send the password reset notification.
