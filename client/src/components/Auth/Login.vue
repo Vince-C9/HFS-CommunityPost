@@ -90,7 +90,12 @@ export default defineComponent({
             this.accessToken = res.data.token;
             //super basic storage for AT.
             sessionStorage.setItem('token', this.accessToken);
-            this.$router.push({path: "/landing"});
+            let interval = setInterval(
+                function () {
+                    this.$router.push({path: "/landing"});
+                }.bind(this),
+                3000
+            );
           })
           .catch((err) => {
             //Time saving - should display errors in the html
