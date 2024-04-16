@@ -11,7 +11,7 @@ class Vote extends Model
 
     protected $fillable = [
         'user_id',
-        'comment_id',
+        'article_id',
         'value'
     ];
 
@@ -22,8 +22,8 @@ class Vote extends Model
     }
 
     //A vote belongs to a comment
-    public function comment(){
-        return $this->belongsTo(Comment::class);
+    public function article(){
+        return $this->belongsTo(Article::class);
     }
 
 }
