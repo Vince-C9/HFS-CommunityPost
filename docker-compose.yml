@@ -45,7 +45,17 @@ services:
       - ./docker-compose/mysql:/docker-entrypoint-initdb.d
     networks:
       - default
-
+  hfs_community_mailhog:
+    platform: linux/x86_64
+    image: mailhog/mailhog
+    container_name: hfs_community_mailhog
+    logging:
+      driver: 'none'
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+    networks:
+      - default
   nginx:
     image: nginx:alpine
     container_name: hsf_community_nginx

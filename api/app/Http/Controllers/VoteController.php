@@ -10,12 +10,12 @@ use Illuminate\Http\Request;
 
 class VoteController extends Controller
 {
-    public function store(Request $request, Article $article, Comment $comment){
+    public function store(Request $request, Article $article){
         try {
             Vote::create([
                 'value'=> $request->value,
                 'user_id'=>auth('sanctum')->user()->id,
-                'comment_id'=>$comment->id
+                'article_id'=>$article->id
             ]);
             return response()->json([
                 'status' => 'vote.store',

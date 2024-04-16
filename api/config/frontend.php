@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'password-reset'=>''
+    'password-reset'=>'http://localhost:5173/reset-password'
 ];

@@ -25,15 +25,13 @@ class Comment extends Model
 
     //Comments are written by users
     public function user(){
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)->select(['id','name']);
     }
 
     //Replies are replied to comments.
     public function replies(){
-        return $this->hasMany(Comment::class, 'parent_id');
+        return $this->hasMany(Comment::class, 'parent_id')->with(['replies', 'replies.user']);
     }
 
-    public function vote(){
-        return $this->hasMany(Vote::class);
-    }
+    
 }
