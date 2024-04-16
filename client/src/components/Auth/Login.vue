@@ -87,7 +87,10 @@ export default defineComponent({
           })
           .then(res => {
             this.loading = false;
-            this.accessToken = res.data.access_token;
+            this.accessToken = res.data.token;
+            //super basic storage for AT.
+            sessionStorage.setItem('token', this.accessToken);
+            this.$router.push({path: "/landing"});
           })
           .catch((err) => {
             //Time saving - should display errors in the html

@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\User;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Article>
@@ -19,7 +20,7 @@ class ArticleFactory extends Factory
         return [
             'title' => fake()->sentence(),
             'content'=> fake()->paragraph(),
-            'user_id'=> fake()->randomNumber()
+            'user_id'=> User::first()->id ?? fake()->randomNumber()
         ];
     }
 }

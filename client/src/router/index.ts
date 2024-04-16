@@ -3,6 +3,7 @@ import Login from '@/components/Auth/Login.vue'
 import Register from '@/components/Auth/Register.vue'
 import Forgot from '@/components/Auth/Forgot.vue'
 import Reset from '@/components/Auth/Reset.vue'
+import Landing from '@/components/Site/Landing.vue'
 
 
 const router = createRouter({
@@ -28,6 +29,11 @@ const router = createRouter({
       name: 'reset',
       component: Reset
     },
+    {
+      path: '/landing',
+      name: 'landing',
+      component: Landing
+    }
     
   ]
 })
