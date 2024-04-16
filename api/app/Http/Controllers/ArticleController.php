@@ -8,6 +8,7 @@ use App\Http\Requests\Article\UpdateArticleRequest;
 use App\Models\Article;
 use App\Models\Comment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Throwable;
 
 class ArticleController extends Controller
@@ -17,7 +18,8 @@ class ArticleController extends Controller
      */
     public function index(Request $request)
     {
-        $articles = Article::with('comment')->get();
+        $sort = $request->input('sort') ?? 'asc';
+        $articles = Article::sort($sort);
 
         return response()->json([
             'status' => 'article.get',
