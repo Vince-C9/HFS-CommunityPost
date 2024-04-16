@@ -33,7 +33,7 @@ Route::prefix('article')->name('article.')->middleware('auth:sanctum')->group(fu
     Route::put('/{article}/comment/{comment}', [CommentController::class, 'update'])->name('update-comment');
     Route::delete('/{article}/comment/{comment}', [CommentController::class, 'destroy'])->name('delete-comment');
 
-    Route::post('/{article}/comment/{comment}/vote', [VoteController::class, 'store'])->name('comment.add-vote');
+    Route::post('/{article}/vote', [VoteController::class, 'store'])->name('comment.add-vote');
 });
 
 
