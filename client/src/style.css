@@ -1,0 +1,35 @@
+body{
+    background: #eee;
+  }
+
+  .login-form{
+    width:100%;
+    border:1px solid #999;
+    border-radius: 4px;
+    min-width: 420px;
+    background-color: #fff;
+  }
+  
+  .login-form header{
+    margin:25px 0;
+    text-align: center;
+  }
+
+  .loading{
+    text-align: center;
+  }
+
+  .loading img{
+    width:50px;
+  }
+
+  .error{
+    font-weight: bold;
+    color:red;
+    text-align: center;
+  }
+  .success{
+    font-weight: bold;
+    color:green;
+    text-align: center; 
+  }
