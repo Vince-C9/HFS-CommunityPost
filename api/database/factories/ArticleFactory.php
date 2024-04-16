@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\User;
+use Illuminate\Support\Carbon;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Article>
@@ -20,7 +21,8 @@ class ArticleFactory extends Factory
         return [
             'title' => fake()->sentence(),
             'content'=> fake()->paragraph(),
-            'user_id'=> User::first()->id ?? fake()->randomNumber()
+            'user_id'=> User::inRandomOrder()->first()->id,
+            'created_at'=>Carbon::today()->subDays(rand(1, 3)),
         ];
     }
 }

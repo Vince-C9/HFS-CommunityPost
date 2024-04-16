@@ -3,6 +3,9 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\User;
+use App\Models\Comment;
+use App\Models\Article;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Comment>
@@ -18,9 +21,9 @@ class CommentFactory extends Factory
     {
         return [
             'comment' => fake()->sentence(),
-            'user_id' => fake()->randomNumber(),
-            'parent_id' => fake()->randomNumber(),
-            'article_id' => fake()->randomNumber(),
+            'user_id'=> User::inRandomOrder()->first()->id,
+            'parent_id' => Comment::inRandomOrder()->first()->id ?? null,
+            'article_id' => Article::inRandomOrder()->first()->id,
         ];
     }
 }
