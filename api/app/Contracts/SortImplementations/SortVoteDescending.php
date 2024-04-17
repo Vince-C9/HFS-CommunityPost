@@ -10,7 +10,7 @@ class SortVoteDescending implements SortInterface{
     public function sort(){
         return Article::with(['comment', 'user', 'vote'])
         ->with('comment.user')
-        ->with('comment.replies')
+        ->with(['comment.replies', 'comment.replies.user'])
         ->withCount(['vote AS vote_total' => function($q){
             $q->select(DB::raw('IFNULL(SUM(value), 0) AS vote_total'));
         }])->orderBy('vote_total','DESC')
