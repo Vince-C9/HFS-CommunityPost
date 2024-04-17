@@ -105,4 +105,11 @@ Had I more time I would implement the following:
 ### Replies
 ![image](https://github.com/Vince-C9/HFS-CommunityPost/assets/78065068/c003c08d-84f1-4470-b6f1-dee7516a87e2)
 
+### Sort Most Popular
+![image](https://github.com/Vince-C9/HFS-CommunityPost/assets/78065068/751f3a80-3c1d-468f-8a36-57599ecbb94f)
+
+### Sort Least Popular
+![image](https://github.com/Vince-C9/HFS-CommunityPost/assets/78065068/5ed171a6-c56a-49ee-805f-96668cf26f06)
+
+
 
