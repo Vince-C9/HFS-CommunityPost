@@ -69,4 +69,5 @@ Had I more time I would implement the following:
  - Inline error handling.
  - Feature tests for fail cases, not just success cases.  EG 'it doesnt let a user delete someone elses comment'.
  - Role based permissions and/or policies to handle ownership rather than form requests.
+ - Finalise implementation of containerised 'production ready' vue platform rather than running the dev version.
 
