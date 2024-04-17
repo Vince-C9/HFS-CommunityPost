@@ -1,6 +1,6 @@
 version: "3"
 services:
-  hsf_community_api:
+  hfs_community_api:
     build:
       args:
         user: admin
@@ -8,9 +8,9 @@ services:
       context: ./api/
       dockerfile: Dockerfile
     depends_on:
-      - hsf_community_db
-    image: hsf_community_api
-    container_name: hsf_community_api
+      - hfs_community_db
+    image: hfs_community_api
+    container_name: hfs_community_api
     restart: unless-stopped
     working_dir: /var/www/api/
     volumes:
@@ -19,8 +19,8 @@ services:
       - default
 
   #Come back to this if there's time
-  hsf_community_client:
-    container_name: hsf_community_client
+  hfs_community_client:
+    container_name: hfs_community_client
     image: node:lts
     working_dir: /var/www/html/app/
     entrypoint: /bin/bash
@@ -30,12 +30,12 @@ services:
       - ./client/:/var/www/html/app
     tty: true
 
-  hsf_community_db:
+  hfs_community_db:
     image: mysql:8.0
-    container_name: hsf_community_db
+    container_name: hfs_community_db
     restart: unless-stopped
     environment:
-      MYSQL_DATABASE: hsf_community_database
+      MYSQL_DATABASE: hfs_community_database
       MYSQL_ROOT_PASSWORD: secret
       SERVICE_TAGS: dev
       SERVICE_NAME: mysql
@@ -58,7 +58,7 @@ services:
       - default
   nginx:
     image: nginx:alpine
-    container_name: hsf_community_nginx
+    container_name: hfs_community_nginx
     restart: unless-stopped
     ports:
       - 8000:80
@@ -66,7 +66,7 @@ services:
       - ./:/var/www
       - ./docker-compose/nginx:/etc/nginx/conf.d/
     depends_on:
-      - hsf_community_api
+      - hfs_community_api
     networks:
       - default
 
